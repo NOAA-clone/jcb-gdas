@@ -52,13 +52,15 @@ members from template:
       datetime: '{{ atmosphere_background_time_iso }}'
       state variables: *bkgvars
     jedi increment input:
-      filetype: cube sphere history
-      provider: ufs
-      filename: ./anl/mem%mem%/atminc.jedi.nc
+      filetype: fms restart
+      is restart: false
+      datapath: ./anl/mem%mem%
+      filename_nonrestart: atminc.jedi.nc
     fv3 increment output:
-      filetype: cube sphere history
-      provider: ufs
-      filename: ./anl/mem%mem%/atminc.nc
+      filetype: fms restart
+      is restart: false
+      datapath: ./anl/mem%mem%
+      filename_nonrestart: atminc.nc        
   pattern: '%mem%'
   nmembers: {{ atmosphere_number_ensemble_members }}
   zero padding: 3
