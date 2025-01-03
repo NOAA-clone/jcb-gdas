@@ -1,8 +1,22 @@
 variable change:
   variable change name: Model2GeoVaLs
-  input variables: &bkgvars [ua,va,t,ps,sphum,ice_wat,liq_wat,o3mr,hgtsfc]
-  output variables: &fv3incrvars [ua,va,t,sphum,ice_wat,liq_wat,o3mr,delp,delz]
-jedi increment variables: [ua,va,t,ps,sphum,ice_wat,liq_wat,o3mr]
+  input variables: &bkgvars [eastward_wind,northward_wind,air_temperature,air_pressure_at_surface,
+                             water_vapor_mixing_ratio_wrt_moist_air,
+                             cloud_liquid_ice,cloud_liquid_water,ozone_mass_mixing_ratio,
+                             air_pressure_thickness,
+                             snow_water,rain_water,graupel,
+                             rain_number_concentration,cloud_ice_number_concentration,
+                             geopotential_height_at_surface,upward_air_velocity]
+  output variables: &fv3incrvars [eastward_wind,northward_wind,air_temperature,air_pressure_at_surface,
+                                  water_vapor_mixing_ratio_wrt_moist_air,
+                                  cloud_liquid_ice,cloud_liquid_water,ozone_mass_mixing_ratio,
+                                  air_pressure_thickness,layer_thickness,
+                                  snow_water,rain_water,graupel,
+                                  rain_number_concentration,cloud_ice_number_concentration,
+                                  geopotential_height_at_surface,upward_air_velocity]                             
+jedi increment variables: [eastward_wind,northward_wind,air_temperature,air_pressure_at_surface,
+                           water_vapor_mixing_ratio_wrt_moist_air,
+                           cloud_liquid_ice,cloud_liquid_water,ozone_mass_mixing_ratio]
 fv3 increment variables: *fv3incrvars
 background geometry:
   fms initialization:
@@ -59,6 +73,13 @@ members:
     filetype: fms restart
     is restart: false
     filename_nonrestart: ./anl/atminc.nc
+  analysis to structured grid:
+    grid type: regular gaussian
+    local interpolator type: oops unstructured grid interpolator
+    all model levels: true
+    number of latitude gridpoints: 96
+    prefix: atmanl
+    variables to output: *fv3incrvars
 
 # Optionally test the application
 {% if do_testing | default(false) %}
